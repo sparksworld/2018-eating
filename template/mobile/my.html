@@ -1,0 +1,45 @@
+{template 'header'}
+<div id="app">
+    <my-top></my-top>
+    <calendar :events="events" :selects="selects"></calendar>
+</div>
+{template 'footer'} 
+{template 'my/my-top'} 
+{template 'my/calendar'}
+<script>
+    var baseUrl = '{php echo $this->createMobileUrl("api")}' + '&action=';
+    var http = axios.create({
+        transformRequest: function (data) {
+            layer.open({ type: 2 });
+            return data;
+        },
+        transformResponse: function (data) {
+            layer.closeAll();
+            return JSON.parse(data);
+        }
+    })
+</script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            events: {
+            },
+            selects: [],
+        },
+        created: function () {
+            var self = this;
+            http({
+                url: baseUrl+'getdatelist'
+            }).then(function(res){
+                res = res.data;
+                console.log(res);
+                if(res.ret==0) {
+                    var data = res.data;
+                    self.events = data.events;
+                    self.selects = data.selects;
+                }
+            })
+        }
+    })
+</script>

@@ -1,0 +1,61 @@
+{template 'header'}
+<div id="app" style="padding-bottom:53px;">
+    <keep-alive>
+        <router-view v-if="$route.meta.keepAlive">
+        </router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive">
+    </router-view>
+    {if $config['menu']}
+    <div style="position:fixed;bottom:0;" class="weui-tabbar">
+        {loop $config['menu'] $item}
+        <a {php echo $item['url']?"href='$item[url]'":''} class="weui-tabbar__item">
+            <img src="{php echo $_W['attachurl'].$item['imgurl']}" alt="" class="weui-tabbar__icon">
+            <p style="margin-bottom:0;" class="weui-tabbar__label">{$item['text']}</p>
+        </a>
+        {/loop}
+    </div>
+    {/if}
+</div>
+{template 'footer'}
+<script>
+    Vue.config.silent = true;
+    var baseUrl = '{php echo $this->createMobileUrl("api")}'+'&action=';
+    var newBaseUrl = '{php echo $this->createMobileUrl("apinew")}'+'&action=';
+    var http = axios.create({
+        transformRequest: function (data) {
+            window.layerIndex = layer.open({type: 2});
+            return JSON.stringify(data);
+        },
+        transformResponse: function (data) {
+            layer.close(window.layerIndex);
+            return JSON.parse(data);
+        }
+    })
+</script>
+{template 'index/index-bottom'}
+{template 'lianxu/index'}
+{template 'my/index'}
+{template 'my/atm'}
+{template 'my/refer'}
+{template 'paihang/index'} 
+{template 'warn/warn'} 
+<script>
+    var routes = [
+        { path: '/', component: indexBottom,meta: {keepAlive: false}},
+        { path: '/lianxu', component: lianxuIndex,meta: {keepAlive: false}},
+        { path: '/my', component: myIndex,meta: {keepAlive: false}},
+        { path: '/atm', component: myAtm,meta: {keepAlive: false}},
+        { path: '/refer', component: myRefer,meta: {keepAlive: false}},
+        { path: '/paihang', component: paihang,meta: {keepAlive: false}},
+        { path: '/warn', component: warn,meta: {keepAlive: false}},
+        { path: '*', component: indexBottom,meta: {keepAlive: true}},
+    ];
+    var router = new VueRouter({
+        routes:routes
+    });
+    var app = new Vue({
+        el: '#app',
+        router:router
+    });
+</script>

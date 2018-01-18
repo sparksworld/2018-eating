@@ -1,0 +1,88 @@
+<style>
+    .my-head{
+        background-image: -webkit-linear-gradient(top,#175D7A 2%,#298492 50%,#3DABAF 99%);
+        background-image: linear-gradient(-180deg,#175D7A 2%,#298492 50%,#3DABAF 99%);
+        position: relative;
+    }
+    .top-item {
+        padding:10px 0px;
+        color:#fff;
+    }
+    .top-number {
+        font-size:18px;
+        color:#fff;
+    }
+    .top-text {
+        font-size:10px;
+        color:#fff;
+    }
+</style>
+<script type="text/x-template" id='mytop'>
+    <div  class="page__bd page__bd_spacing my-head">
+        <div style="padding:20px 10px;font-size:22px;color:#fff;position:relative;">
+            <span>我的战绩</span>
+            <!-- <img style="position:absolute;right:20px;top:20px;width:35px;border-radius:50%;" alt="" 
+                src="{php echo $this->member['headimgurl'];}"> -->
+            <div style="position:absolute;right:20px;top:20px;">
+                <span style="margin-right:-15px;" class="weui-btn weui-btn_mini ">余额:{{new Number(initData.money).toFixed(2)}}</span>
+                <router-link to="/atm" class="weui-btn weui-btn_mini weui-btn_primary">提现</router-link>
+            </div>
+        </div>
+        <div class="weui-flex" style="padding:10px 10px;">
+            <div class="weui-flex__item">
+                <div class="placeholder top-item">
+                    <span class="top-number">{{initData.allin}}</span>
+                    <div class="top-text">累计投入(元)</div>
+                </div>
+            </div>
+            <div class="weui-flex__item top-item">
+                <div class="placeholder">
+                    <span class="top-number">{{initData.allmoney}}</span>
+                    <div class="top-text">累计奖励(元)</div>
+                </div>
+            </div>
+            <div class="weui-flex__item top-item">
+                <div class="placeholder">
+                    <span class="top-number">{{initData.alldaka}}</span>
+                    <div class="top-text">打卡天数(天)</div>
+                </div>
+            </div>
+            <div class="weui-flex__item top-item">
+                <a href="{php echo murl('mc','','',true)}" class="placeholder">
+                    <span class="top-number">{{initData.score}}</span>
+                    <div class="top-text">我的积分</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+<script>
+    var indexTop = Vue.component('my-top',{
+        template: '#mytop',
+        data:function() {
+            return {
+                initData:{
+                    allin:0,
+                    alldaka:0,
+                    allmoney:0,
+                    score:0,
+                    money:0
+                }
+            }
+        },
+        created: function () {
+            this.getInit();
+        },
+        methods: {
+            getInit: function () {
+                var self = this;
+                http({
+                    url: baseUrl+'myinit'
+                }).then(function(res){
+                    res = res.data;
+                    self.initData = res.data;
+                })
+            }
+        }
+    })
+</script>

@@ -1,0 +1,86 @@
+<form id="form" class="form-horizontal" >
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">提醒开关</label>
+        <div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+            <div class="radio">
+                <label>
+                    <input {php echo $config[ 'iswarn']==1? 'checked': '';} type="radio" name="iswarn" value="1">打开
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input {php echo $config[ 'iswarn']==2? 'checked': '';} type="radio" name="iswarn" value="2">关闭
+                </label>
+            </div>
+            <div style="color:red;font-size:12px;" class="radio">
+                <span>
+                    打开后用户可设置提醒时间，通过模版消息发送提醒
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">打卡失败提醒开关</label>
+            <div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+                <div class="radio">
+                    <label>
+                        <input {php echo $config[ 'iswarnfail']==1? 'checked': '';} type="radio" name="iswarnfail" value="1">打开
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input {php echo $config[ 'iswarnfail']==2? 'checked': '';} type="radio" name="iswarnfail" value="2">关闭
+                    </label>
+                </div>
+                <div style="color:red;font-size:12px;" class="radio">
+                    <span>
+                        打开后打卡失败的用户会在8点10分收到失败提醒
+                    </span>
+                </div>
+            </div>
+        </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">模版消息ID</label>
+        <div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+            <input value="{php echo $config['warntmpid'];}" type="text" name="warntmpid" class="form-control" placeholder="模版消息ID">
+            <span class="help-text">
+               行业：IT科技 - 互联网|电子商务 编号：OPENTM405456204 名称：预约课程开始提醒 
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">提醒链接</label>
+        <div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+            <span class="form-control"><a target="_blank">{$warnurl}</a></span>
+            <span>
+                请将该链接加入定时任务，建议5分钟内执行一次
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+        <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2">
+            <a type="button" onclick="submit()" class="btn btn-primary">提交</a>
+        </div>
+    </div>
+</form>
+
+<script>
+    function submit() {
+        var data = $('#form').serialize();
+        $.ajax({
+            url: window.location.href,
+            data: data,
+            type: 'post',
+            dataType: 'json',
+        }).then(function (res) {
+            if (res.ret == 0) {
+                util.message('修改成功');
+            } else {
+                util.message(res.message, '', 'error');
+            }
+        });
+    }
+</script>

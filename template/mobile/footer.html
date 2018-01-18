@@ -1,0 +1,36 @@
+<script src="https://cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/util.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?v=20170802"></script>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/mui.min.js?v=20170802"></script>
+<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/common.js?v=20170802"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+{php echo register_jssdk(false);}
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: "{php echo $share['title']}",
+            desc: "{php echo $share['desc']}",
+            link: "{php echo $share['link']}",
+            imgUrl: "{php echo $share['imgUrl']}",
+            success: function () {
+            },
+            cancel: function () {
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline({
+            title: "{php echo $share['title']}",
+            link: "{php echo $share['link']}",
+            imgUrl: "{php echo $share['imgUrl']}",
+            success: function () { 
+            },
+            cancel: function () { 
+            }
+        });
+    });
+</script>
+</body>
+</html>

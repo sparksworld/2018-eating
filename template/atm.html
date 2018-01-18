@@ -1,0 +1,176 @@
+<style lang="css" scoped>
+.panel-content>.panel-body{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.pull-right{
+    text-align: right;
+}
+.oneKey{
+    color: #fff;
+    border:0;
+    border-radius: 0.5em;
+    width: 6em;
+    height: 2.5em;
+    background: #ca4242;
+    margin: 2em;
+    outline: none;
+}
+.activeAll, .activeUid{
+    width: 1em;
+    height: 1em;
+}
+</style>
+{template 'webheader'}
+{template 'common/header'}
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="{php echo !isset($_GPC['status'])?'active':''}">
+        <a href="{php echo $this->createWebUrl('atm')}">全部提现</a>
+    </li>
+        <li role="presentation" id="waitDispose" class="{php echo $_GPC['status']==='0'?'active':''}">
+        <a href="{php echo $this->createWebUrl('atm',array('status'=>'0'))}">待处理</a>
+    </li> 
+    <li role="presentation" class="{php echo $_GPC['status']=='1'?'active':''}">
+        <a href="{php echo $this->createWebUrl('atm',array('status'=>'1'))}">已处理</a>
+    </li>
+</ul>
+<div class="panel panel-default">
+    <div class="panel-body table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th class="hidden">全选<br/><input class="activeAll" type="checkbox"></th>              
+                    <th>头像</th>
+                    <th>UID</th>
+                    <th>OPENID</th>
+                    <th>昵称</th>
+                    <th>创建时间</th>
+                    <th>姓名</th>
+                    <th>金额</th>
+                    <th>状态</th>
+                    <th>打款时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $item}
+                <tr>
+                    <th id="remitId" scope="row">{$item['id']}</th>
+                    <td class="hidden"><input class="activeUid" type="checkbox"></td>
+                    <td><img src="{$item['fansinfo']['headimgurl']}" width="80" height="80"/></td>
+                    <td>{$item['fansinfo']['uid']}</td>
+                    <td>{$item['fansinfo']['openid']}</td>
+                    <td>{$item['fansinfo']['nickname']}</td>
+                    <td>{$item['create_time']}</td>
+                    <td>{$item['name']}</td>
+                    <td>{$item['money']}</td>
+                    <td>{php echo $item['status']?'已打款':'未打款';}</td>
+                    <td>{$item['checked_time']}</td>
+                    <td>
+                        {if $item['status']==0}
+                        <a onclick="doatm('{$item[id]}')" style="margin:5px;" class="btn btn-danger">打款</a>
+                        {/if}
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+    </div>
+    <div class="pull-right">
+        <button class="oneKey" href="javascript:;">一键打款</button>
+        {$pager}
+    </div>
+</div>
+{template 'common/footer'}
+<script>
+    if($('#waitDispose').hasClass('active')) {
+        $('.hidden').removeClass('hidden')
+    }
+    function doatm (id) {
+        var url = window.location.href+'&action=atm&id='+id;
+        var confirm = weui.confirm('确定打款吗?',function(){
+            $.ajax({
+                url:url,
+                dataType:'json'
+            }).then(function(res){
+                confirm.hide(function(){
+                    weui.alert(res.message,function(){
+                        location.reload();
+                    });
+                })
+            });
+            return false;
+        })
+        
+    }
+    $('.activeAll').on('change', function() {
+            var $allInput = $('.activeUid')
+            for(var i = 0; i < $allInput.length; i++) {
+                $allInput.prop('checked', $(this).prop('checked'))
+            }
+        })
+        // 判断是否全部选中
+        function activatAllInput() {
+            var $allInput = $('.activeUid')
+            for(var i = 0; i < $allInput.length; i++) {
+                if($allInput.eq(i).prop('checked') == false) {
+                    return false
+                }
+            }
+            return true
+        }
+        $('.activeUid').on('change', function() {
+                $('.activeAll').prop('checked', activatAllInput())
+        })
+        $('.oneKey').on('click', function() {
+            var url = window.location.href
+            var remitIds = []
+            var confirm = weui.confirm('确定一键打款吗?',function() {
+                remitIds = []
+                for(var i = 0; i < $('.activeUid').length; i++) {
+                    if($('.activeUid').eq(i).prop('checked')) {
+                        remitIds.push(Number($('.activeUid').eq(i).parent().siblings('#remitId').text()))
+                    }
+                }
+                console.log(remitIds)
+                $.ajax({
+                    url:'./index.php',
+                    type: 'POST',
+                    async: true,
+                    // dataType: 'JSON',
+                    // traditional : true,
+                    data: {
+                        c: "site",
+                        a: "entry",
+                        do: "piliang",
+                        op: "index",
+                        m: "hai105_daka",
+                        tixian_id: remitIds.join(','),
+                    },
+                    success: function(res) {
+                        var res = JSON.parse(res)
+                        console.log(res)
+                        confirm.hide(function() {
+                            if(res.code != 800) {
+                                weui.alert(res.msg);
+                                return
+                            }
+                            weui.alert(res.msg);
+                            setTimeout(function() {
+                                window.location.reload()
+                            }, 1000)
+                        })
+                    },
+                    fail: function() {
+                        confirm.hide(function() {
+                            if(res.code != 800) {
+                                weui.alert("未知错误");
+                            }
+                        })
+                    }
+                })
+                return false;
+            })
+        })
+</script>

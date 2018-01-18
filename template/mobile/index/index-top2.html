@@ -1,0 +1,197 @@
+<style>
+    .head {
+        background-image: -webkit-linear-gradient(top, #175D7A 2%, #1B667F 10%, #278190 30%, #28919B 43%, #42C2C3 63%, #FDFEDC 97%);
+        background-image: linear-gradient(-180deg, #175D7A 2%, #1B667F 10%, #278190 30%, #28919B 43%, #42C2C3 63%, #FDFEDC 97%);
+        padding-bottom: 0px;
+        position: relative;
+        padding-bottom:80px;
+    }
+
+    .cleardog {
+        width: 132px;
+        height: 65px;
+        background: url({MODULE_URL}static/img/cleardog.png) 0 0 no-repeat;
+        background-size: 100% auto;
+        position: absolute;
+        left: 1rem;
+        z-index: 2;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+    }
+
+    .cleardog {
+        animation: cleardog 1.2s steps(6) infinite;
+        -webkit-animation: cleardog 1.2s steps(6) infinite;
+    }
+
+    @keyframes cleardog {
+        0% {
+            background-position: 0 0
+        }
+        100% {
+            background-position: 0 -390px
+        }
+    }
+
+    @-webkit-keyframes cleardog {
+        0% {
+            background-position: 0 0
+        }
+        100% {
+            background-position: 0 -390px
+        }
+    }
+
+    .sleepdog {
+        width: 131px;
+        height: 65px;
+        background: url({MODULE_URL}static/img/sleepdog.png) 0 0 no-repeat;
+        background-size: 100% auto;
+        position: absolute;
+        bottom: -.375rem;
+        left: 1rem;
+        z-index: 2;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    .sleepdog {
+        animation: sleepdog 1.2s steps(12) infinite;
+        -webkit-animation: sleepdog 1.2s steps(12) infinite
+    }
+
+    @keyframes sleepdog {
+        0% {
+            background-position: 0 0
+        }
+
+        100% {
+            background-position: 0 -780px
+        }
+    }
+
+    @-webkit-keyframes sleepdog {
+        0% {
+            background-position: 0 0
+        }
+
+        100% {
+            background-position: 0 -780px
+        }
+    }
+
+    .rule-title {
+        border: none;
+    }
+</style>
+<script type="text/x-template" id='top'>
+    <div>
+        <div class="head">
+            <div style="position:absolute;right:10px;bottom:10px;display:block;z-index:100">
+                <router-link to="paihang">
+                    <img width="50"  src="{MODULE_URL}static/img/ph.png">
+                </router-link>
+                <?php if($config['zhanji_type']==1){ ?>
+                <a @click="showzhanji" style="display:block">
+                    <img width="50"  src="{MODULE_URL}static/img/zj.png">
+                </a>
+                <?php } ?>
+                <?php if($config['lianxu_status']==1){ ?>
+                 <router-link to="lianxu" style="display:block">
+                    <img width="50"  src="{MODULE_URL}static/img/dk.png">
+                </router-link> 
+                <?php } ?>
+                <?php if($config['sub_url']){ ?>
+                <a href="{$config['sub_url']}" style="display:block">
+                    <img width="50"  src="{MODULE_URL}static/img/sc.png">
+                </a>
+                <?php } ?>
+            </div>
+            <div class="head-top">
+                <div class="left">
+                    <img alt="" src="http://pay.wao021.cn/Static/sun.png">
+                    <span>{{initData.userinfo.lianxu}}</span>
+                </div>
+                <div class="right">
+                    <router-link to="my">
+                        <img alt="" :src="initData.userinfo.headimgurl">
+                    </router-link>
+                </div>
+            </div>
+            <span style="color:#fff;" class="text1">
+                明日打卡可平分金额(元)
+            </span>
+            <span style="color:#fff;" class="money">
+                <span>{{initData.allMoney}}</span>
+                <span v-if="initData.zanzhu" style="color:#DC3731;">{{initData.zanzhu?('+ '+initData.zanzhu.money):''}}</span>
+            </span>
+            
+            <span v-if="initData.zanzhu"  class="text2">
+                <a style="margin-bottom:10px;color:#DC3731;font-size:16px;" v-if="initData.zanzhu.url" :href="initData.zanzhu.url">{{initData.zanzhu.name}}</a>
+                <a style="margin-bottom:10px;color:#DC3731;font-size:16px;" v-if="!initData.zanzhu.url">{{initData.zanzhu.name}}</a>
+            </span>
+            
+            <span style="color:#fff;" class="text2">
+                当前有
+                <span style="color:#F2E1BB;" class="text3">{{initData.allNumber}}</span>
+                人参与打卡挑战
+            </span>
+            <div>
+                <div class="headimgs">
+                    <div style="padding-left: 3%;">
+                        <template v-for="item in initData.headlist">
+                            <img alt='' :src="item.headimgurl"/>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div style="color:#fff;position:relative;z-index:50;" class="rule-title">
+                <span @click="showRule()">挑战规则></span>
+            </div>
+            <img 
+                style="width:100%;height:auto;position:absolute;left:0;bottom:0;z-index:1;"
+                src="{MODULE_URL}static/img/view.png"/>
+            <div class="dog cleardog"></div>
+        </div>
+        <div class="pay">
+            <div style="padding:0 5%;">
+                <a 
+                    v-if="isPay"
+                    style="color:#fff;background:#FF8019;transform:none;borderRadius:0;boxShadow:-1px 1px 5px rgb(255, 128, 25);"
+                    @click="getPayData()" class="weui-btn weui-btn_primary">{{initData.config.paybtntext}}</a>
+                <a 
+                    v-if="isQiandao"
+                    style="color:#fff;background:#e94f4f;transform:none;borderRadius:0;boxShadow:-1px 1px 5px rgb(255, 128, 25);"
+                    @click="daka" class="weui-btn weui-btn_primary">立即打卡</a>
+                <a 
+                    v-if="!isPay && !isQiandao && initData.daojishi>0"
+                    style="color:#fff;background:#FF8019;transform:none;borderRadius:0;boxShadow:-1px 1px 5px rgb(255, 128, 25);"
+                    class="weui-btn weui-btn_primary">打卡倒计时{{daojishi}}</a>
+            </div>
+        </div>
+
+        
+        <div v-if="initData.userinfo && initData.config.iswarn==1" style="text-align:center;padding:0 0 15px 0;" class="warn">
+            <i  @click="goTo('/warn')" style="font-size:25px;color:#e94f4f;" :class="initData.userinfo.iswarn==1?'icon-noticefill':'icon-notice'" class="iconfont "></i>
+            <span @click="goTo('/warn')" style="font-size:15px;color:#e94f4f;">{{initData.userinfo.warntime?initData.userinfo.warntime:'设置提醒'}}</span>
+        </div> 
+
+        <div style="text-align:center;" className="result">
+            <span style="display:block;font-size:20px">今日打卡战况</span>
+            <div style="padding:10px 0;color:#999;">
+                <span style="color:#1cc721">{{initData.successNumber}} </span>已打卡
+                <span style="padding:0 10px;">|</span>
+                <span style="color:#1cc721">{{initData.failNumber}} </span>未打卡
+            </div>
+        </div>
+    </div>
+</script>
+{template 'index/index'}

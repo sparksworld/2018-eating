@@ -1,0 +1,381 @@
+{template 'webheader'}
+<script src="{MODULE_URL}static/js/base64.js"></script>
+{template 'common/header'}
+<style>
+    .help-text{
+        padding:5px 0;
+        font-size:15px;
+        color:red;
+        display: block;
+    }
+    .input-group{
+        color:#000;
+    }
+    .input-group .form-control{
+        color:#000!important;
+    }
+</style>
+<div id="app" class="row">
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">注意⚠</div>
+            <div class="panel-body">
+                <h4>说明:该功能使用七牛云api,需要在 站点管理->附件设置->远程附件 设置七牛云相关参数</h4><br>
+                <h4>注意:只需要设置相关参数，无需启用，设置完成后,可以切换回你原有的配置(系统只会在需要使用相关参数时进行调用)</h4><br>
+                <br>
+                七牛云官网:<a href='https://portal.qiniu.com/signin' target="_blank">https://portal.qiniu.com/signin</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">图片预览</div>
+            <div class="panel-body">
+                <img style="width:100%" id="preview" src="">
+            </div>
+        </div>
+        
+        <div class="panel panel-info">
+            <div class="panel-heading">取色工具</div>
+            <div class="panel-body">
+                {php echo tpl_form_field_color('color', $value = '')}
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">文本替换规则:</div>
+            <div class="panel-body">
+                %yyyy%-->年<br>
+                %mm%-->月<br>
+                %dd%-->日<br>
+                %hh%-->时<br>
+                %ii%-->分<br>
+                %ss%-->秒<br>
+                %nickname%-->昵称<br>
+                %all%-->累计参与次数<br>
+                %money%-->累计收入金额<br>
+                %lianxu%-->连续打卡天数<br>
+                %check%-->成功打卡天数<br>
+                %daka%-->当天打卡时间
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">图片设置</div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="form">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">战绩展示</label>
+                        <div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+                            <div class="radio">
+                                <label>
+                                    <input 
+                                        v-model="zhanji_type"
+                                        type="radio" name="zhanji_type"  value="1">
+                                        显示
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input 
+                                        v-model="zhanji_type"
+                                        type="radio" name="zhanji_type" value="2">
+                                        隐藏
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">自动发送战绩海报</label>
+                        <div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+                            <div class="radio">
+                                <label>
+                                    <input 
+                                        v-model="zhanji_auto"
+                                        type="radio" name="zhanji_auto"  value="1">
+                                        打开
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input 
+                                        v-model="zhanji_auto"
+                                        type="radio" name="zhanji_auto" value="2">
+                                        关闭
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">底图</label>
+                        <div id="imgurl" class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+                            {php echo tpl_form_field_image('zhanji_back', $config['zhanji_back'], $default = '', $options = array());}
+                        </div>
+                    </div>
+                    <template v-for="(item,index) in params">
+                        <div style="position:relative;" class="form-group">
+                            <!--<a style='position:absolute;top:0px;right:10%;'>删除</a>-->
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">元素</label>
+                            <div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">元素类型</span>
+                                    <select v-model="item.type" class="form-control">
+                                        <option value="1">文本内容</option>
+                                        <option value="2">用户头像</option>
+                                        <option value="3">二维码</option>
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" @click.prevent="del(index)" style="color:red;" >删除</button>
+                                    </span>
+                                </div>
+                                <div v-show="item.type==1" class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">元素内容</span>
+                                    <input 
+                                        v-model="item.content"
+                                        type="text"  class="form-control" placeholder="内容">
+                                </div>
+                                <div  class="input-group">
+                                    <span class="input-group-addon">水印位置</span>
+                                    <select v-model="item.gravity" class="form-control">
+                                        <option value="SouthEast">右下</option>
+                                        <option value="NorthEast">右上</option>
+                                        <option value="NorthWest">左上</option>
+                                        <option value="SouthWest">左下</option>
+                                        
+                                        <option value="North">上中</option>
+                                        <option value="South">下中</option>
+                                        <option value="West">左中</option>
+                                        <option value="East">右中</option>
+                                        
+                                        <option value="Center">中心</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <span class="input-group-addon">右边距离</span>
+                                    <input 
+                                        v-model="item.right"
+                                        type="text"  class="form-control" placeholder="到右边距离(px)">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">底边距离</span>
+                                    <input 
+                                    v-model="item.bottom"
+                                    type="text"  class="form-control" placeholder="到底边距离(px)">
+                                </div>
+                                <div v-show="item.type==1" class="input-group">
+                                    <span class="input-group-addon">字体大小</span>
+                                    <input 
+                                    v-model="item.fontsize"
+                                    type="text"  class="form-control" placeholder="字体大小(缇)">
+                                </div>
+                                <div v-show="item.type==1" class="input-group">
+                                    <span class="input-group-addon">字体样式</span>
+                                    <select v-model="item.font" class="form-control">
+                                        <option value="黑体">黑体</option>
+                                        <option value="仿宋">仿宋</option>
+                                        <option value="楷体">楷体</option>
+                                        <option value="宋体">宋体</option>
+                                        <option value="微软雅黑">微软雅黑</option>
+                                    </select>
+                                </div>
+                                
+                                <div v-show="item.type==1" class="input-group">
+                                    <span class="input-group-addon">字体颜色</span>
+                                    
+                                    <input 
+                                    v-model="item.color"
+                                    type="text"  class="form-control" placeholder="16进制颜色编码">
+                                </div>
+                                <div v-show="item.type==2" class="input-group">
+                                    <span class="input-group-addon">头像缩放</span>
+                                    <input 
+                                    v-model="item.ws"
+                                    type="number"  class="form-control" placeholder="头像缩放比例(0-1)">
+                                </div>
+                                <div v-show="item.type==3" class="input-group">
+                                    <span class="input-group-addon">图片缩放</span>
+                                    <input 
+                                    v-model="item.ws"
+                                    type="number"  class="form-control" placeholder="缩放比例(0-1)">
+                                </div>
+                                <div  class="input-group">
+                                    <span class="input-group-addon">透明数值</span>
+                                    <input 
+                                    v-model="item.dissolve"
+                                    type="number"  class="form-control" placeholder="透明度(1-100)">
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    
+                    
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                        <a  type="button" @click="addparam()" class="btn btn-default">添加元素</a>
+                        <a  type="button" @click="preview1()" class="btn btn-success">预览</a>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                        <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2">
+                            <a type="button" @click="submit()" class="btn btn-success">保存</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{template 'common/footer'}
+<script>
+    var app = new Vue({
+        el:'#app',
+        data: {
+            params: [],
+            zhanji_type:'{$config["zhanji_type"]}',
+            zhanji_auto:'{$config["zhanji_auto"]}',
+            card: '{php echo json_encode($config)}',
+            headimgurl: 'http://wx.qlogo.cn/mmopen/KR1KEibImfBWricgy4C5Qic5evIlicFXsTcWfYCNsa2NQAAYrDHFHSqebEX8guc7thDNeNO6TG7wAj5abavtUUQ57yEG9bhfjVOQ/132',
+            qrcode:'{MODULE_URL}static/img/qrcode.png'
+        },
+        mounted: function () {
+            if(this.card) {
+                var card = JSON.parse(this.card);
+                if(card.zhanji_params){
+                    this.params = card.zhanji_params;
+                }
+                this.preview1();
+            }
+        },
+        methods: {
+            del: function (index) {
+                this.params.splice(index,1);
+            },
+            addparam: function () {
+                this.params.push({
+                    content:'',
+                    type:1,
+                    right:0,
+                    bottom:0,
+                    fontsize:240,
+                    color:'#000',
+                    dissolve:100,
+                    ws: 1,
+                    font:'黑体',
+                    gravity:'SouthEast'
+                });
+            },
+            submit: function () {
+                var self = this;
+                $.ajax({
+                    type:'post',
+                    url:window.location.href,
+                    data: {
+                        zhanji_params:JSON.stringify(self.params),
+                        zhanji_back: $('#imgurl input').val(),
+                        zhanji_type: self.zhanji_type,
+                        zhanji_auto:self.zhanji_auto
+                    },
+                    dataType: "json"
+                }).then(function(res){
+                    if(res.ret==1) {
+                        weui.alert(res.message);
+                    }else{
+                        weui.toast(res.message,{callback:function(){
+                            if(res.url){
+                                location.href = res.url;
+                            }
+                        }})
+                    }
+                })
+            },
+            preview1: function () {
+                var self = this;
+//                var load = weui.loading();
+                $.ajax({
+                    url: location.href+'&action=preview',
+                    data: {
+                        zhanji_params:JSON.stringify(self.params),
+                        zhanji_back: $('#imgurl input').val(),
+                        zhanji_type: self.zhanji_type,
+                        zhanji_auto:self.zhanji_auto
+                    },
+                    dataType: "json",
+                    type:'post'
+                }).then(function(res){
+//                    load.hide();
+                    $('#preview').attr('src',res.data);
+                });
+            },
+            preview: function () {
+                var self = this;
+                var base64text;
+                var back = $('#imgurl img').attr('src');
+                var params = this.params;
+                if(this.params.length>0){
+                    back += '?watermark/3';
+                }
+                for(var i=0;i<params.length;i++) {
+                    var item = params[i];
+                    
+                    if(item.type==1) {
+                        if(!item.content){
+                            continue;
+                        }
+                        base64text = utf8base64(params[i].content);
+                        back += '/text/'+base64text;
+                        if(item.fontsize) {
+                            back += '/fontsize/'+item.fontsize;
+                        }
+                        if(item.right) {
+                            back += '/dx/'+item.right;
+                        }
+                        if(item.bottom) {
+                            back += '/dy/'+item.bottom;
+                        }
+                        if(item.color) {
+                            back += '/fill/'+base64.encode(item.color);
+                        }
+                        if(item.dissolve) {
+                            back += '/dissolve/'+item.dissolve;
+                        }
+                    }else if(item.type==2) {
+                        base64text = base64.encode(self.headimgurl);
+                        back += '/image/'+base64text;
+                        if(item.right) {
+                            back += '/dx/'+item.right;
+                        }
+                        if(item.bottom) {
+                            back += '/dy/'+item.bottom;
+                        }
+                        if(item.dissolve) {
+                            back += '/dissolve/'+item.dissolve;
+                        }
+                        if(item.ws) {
+                            back += '/ws/'+item.ws;
+                        }
+                    }else if(item.type==3) {
+                        base64text = base64.encode(self.qrcode);
+                        back += '/image/'+base64text;
+                        if(item.right) {
+                            back += '/dx/'+item.right;
+                        }
+                        if(item.bottom) {
+                            back += '/dy/'+item.bottom;
+                        }
+                        if(item.dissolve) {
+                            back += '/dissolve/'+item.dissolve;
+                        }
+                        if(item.ws) {
+                            back += '/ws/'+item.ws;
+                        }
+                    }
+                }
+                $('#preview').attr('src',back);
+            }
+        }
+    });
+    
+</script>
+

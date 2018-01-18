@@ -1,0 +1,135 @@
+<form class="form-horizontal" id="form">
+        <a style="margin:10px;" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-id="" data-name="" data-money=""
+        data-date="">添加赞助</a>
+    <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>金额</th>
+                        <th>赞助商</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {loop $list $item}
+                    <tr>
+                        <th scope="row">{$item['date']}</th>
+                        <td>{$item['money']}</td>
+                        <td>{$item['name']}</td>
+                        <td>
+                            <a style="margin:10px;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-id="{$item['id']}" data-name="{$item['name']}"
+                                data-money="{$item['money']}" data-date="{$item['date']}" data-url="{$item['url']}">修改</a>
+                            <a style="margin:10px;" onclick="deletezanzhu({$item['id']})" class="btn btn-danger">删除</a>
+                        </td>
+                    </tr>
+                    {/loop}
+                </tbody>
+            </table>
+        </div>
+        <div class="pull-right">{$pager}</div>
+    </div>
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">添加赞助</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input name="id" type="hidden" class="form-control" id="model-id">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">日期:(发放该金额的日期(如设置为12月5日,则在12月5日发放奖励时额外增加该金额))</label>
+                            <input type="text" name="date" placeholder="请选择日期时间" readonly="readonly" id="model-date" class="datetimepicker form-control"
+                                style="padding-left:12px;" />
+                            <script type="text/javascript">
+                                require(["datetimepicker"], function () {
+                                    var option = {
+                                        lang: "zh",
+                                        step: 5,
+                                        timepicker: false,
+                                        closeOnDateSelect: true,
+                                        format: "Y-m-d"
+                                    };
+                                    $(".datetimepicker[name = 'date']").datetimepicker(option);
+                                });
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">金额:</label>
+                            <input name="money" type="text" class="form-control" id="model-money">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">赞助商:</label>
+                            <input name="name" type="text" class="form-control" id="model-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">赞助商链接:</label>
+                            <input name="url" type="text" class="form-control" id="model-url">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" onclick="addzanzhu()" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    function addzanzhu() {
+        var data = $('form').serialize();
+        $('#exampleModal').modal('hide');
+        $.ajax({
+            url: window.location.href + '&action=add',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+        }).then(function (res) {
+            weui.alert(res.message, function () {
+                location.reload();
+            });
+        });
+    }
+    function deletezanzhu(id) {
+        var confirm = weui.confirm('确认删除吗?', function () {
+            $.ajax({
+                url: window.location.href + '&action=delete&id=' + id,
+                dataType: 'json',
+            }).then(function (res) {
+                confirm.hide(function () {
+                    weui.alert(res.message, function () {
+                        location.reload();
+                    });
+                })
+            });
+            return false;
+        })
+
+    }
+
+
+    $('textarea').flexText();
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var money = button.data('money');
+        var date = button.data('date');
+        var id = button.data('id');
+        var name = button.data('name');
+        var url = button.data('url');
+        var modal = $(this);
+        modal.find('.modal-body #model-money').val(money);
+        modal.find('.modal-body #model-date').val(date);
+        modal.find('.modal-body #model-id').val(id);
+        modal.find('.modal-body #model-name').val(name);
+        modal.find('.modal-body #model-url').val(url);
+    })
+</script>
