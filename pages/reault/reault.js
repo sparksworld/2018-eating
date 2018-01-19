@@ -3,8 +3,8 @@
 Page({
 	onLoad: function () {
 		this.setData({
-			'name_header.userName': wx.getStorageSync('needData').val,
-			'name_header.userHeader': wx.getStorageSync('needData').avatar
+			'name_header.userName': wx.getStorageSync('props').val,
+			'name_header.userHeader': wx.getStorageSync('props').avatar
 		})
 	}
 })

@@ -4,11 +4,11 @@
 		<image style="width: 750rpx; background-color: #eeeeee;" src="{{pageData.imgBanner.path}}"></image>
 	</view>
 	<view class="testPro">
-		<text class="pageTitle" space="emsp">{{needData.title}}</text>
+		<text class="pageTitle" space="emsp">{{pageData.title}}</text>
 	</view>
 
 	<view class="textEnt">
-		<input  class="enterName" bindinput="getName" value="{{pageData.deauftText}}"/>
+		<input  class="enterName" bindinput="getName" value="{{userInfo.nickName}}"/>
 	</view>
 	<view class="submit_btn">
 		<button bindtap="testTest">测一测</button>
