@@ -1,0 +1,17 @@
+<!--index.wxml-->
+<view class="container">
+	<view class="banner">
+		<image style="width: 750rpx; background-color: #eeeeee;" src="{{pageData.imgBanner.path}}"></image>
+	</view>
+	<view class="testPro">
+		<text class="pageTitle" space="emsp">{{needData.title}}</text>
+	</view>
+
+	<view class="textEnt">
+		<input  class="enterName" bindinput="getName" value="{{pageData.deauftText}}"/>
+	</view>
+	<view class="submit_btn">
+		<button bindtap="testTest">测一测</button>
+	</view>
+
+</view>

@@ -1,0 +1,47 @@
+/**index.wxss**/
+
+.container,
+.container .banner,
+.textEnt {
+    width: 100%;
+}
+
+.container .banner images {
+    width: 750rpx;
+}
+
+.testPro {
+    width: 100%;
+    text-align: center;
+}
+
+.testPro .pageTitle {
+	font-size: 38rpx;
+    line-height: 110rpx;	
+}
+
+.textEnt {
+	height: 100%;
+	width: 80%;
+	margin: 0 auto;
+	/* position: relative; */
+	border: 1px solid #ececec;
+}
+
+.enterName {
+	height: 80rpx;
+    width: 100%;
+	color: #666;
+	padding: 0 6rpx;
+	box-sizing: border-box;
+}
+.submit_btn button{
+	width: 80%;
+	margin-top: 20rpx;
+	background-color: rgb(67, 148, 36);
+	color: #fff;
+	
+}
+.submit_btn .button-hover {
+	background-color: rgb(36, 143, 111);
+  }
