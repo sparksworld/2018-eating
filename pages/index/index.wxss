@@ -3,10 +3,11 @@
 .container,
 .container .banner,
 .textEnt {
+	position: relative;
     width: 100%;
 }
 
-.container .banner images {
+.container .banner image {
     width: 750rpx;
 }
 
@@ -44,4 +45,33 @@
 }
 .submit_btn .button-hover {
 	background-color: rgb(36, 143, 111);
-  }
+}
+.container .banner{
+	position: relative;
+}
+.container .banner .userheader{
+	position: absolute;
+	left: 50%;
+	top: 47%;
+	transform: translateX(-50%) translateY(-50%);
+	border-radius: 50%;
+}
+.container .bottomPic{
+	margin:0 auto;
+	width:120rpx; 
+	height:120rpx;
+	position: fixed;
+	bottom: 80rpx;
+	right: 0;
+	left: 0;
+	padding: 0;
+	border: none;
+	background-color: #fff;
+}
+.container .bottomPic::after{
+	display:none;
+}
+.container .bottomPic image{
+	width: 100%;
+	height: 100%;
+}

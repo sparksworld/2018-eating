@@ -1,46 +1,121 @@
 //index.js
 //获取应用实例
+let common = require('../../utils/common.js')
 const app = getApp()
 Page({
-	data: {
-		userInfo: {},
-		props:{},
-		pageData: {
-			title: '2018，你靠什么吃饭？',
-			imgBanner: {
-				mode: "center",
-				path: '../assets/images/banner.png'
-			},
-		}
-	},
-	//事件处理函数
-	testTest: function () {
-		wx.navigateTo({
-			url: '../reault/reault?'
-		})
-	},
-	getName(e) {
-		if(e.detail.value) {
-			this.setData({
-				'props.val': e.detail.value,
-				'props.avatar': this.data.userInfo.avatarUrl			
-			})
-		} else {
-			this.setData({
-				'props.val': this.data.userInfo.nickName,
-				'props.avatar': this.data.userInfo.avatarUrl
-			})
-		}
-		wx.setStorageSync('props', this.data.props)
-	},
-	onLoad: function () {
-		var that = this
-		//调用应用实例的方法获取全局数据
-		app.getUserInfo(function (userInfo) {
-			//更新数据
-			that.setData({
-				userInfo: userInfo
-			})
-		})
-	}
+    data: {
+        timer: null,
+        userInfo: {},
+        animationData: {},
+        props: {
+            status: 0
+        },
+        pageData: {
+            title: '2018，你靠什么吃饭？',
+            imgBanner: {
+                path: '../assets/images/banner.png'
+            }
+        },
+        bottomPic: '../assets/images/timg.png'
+    },
+    judgeLength() {
+        return this.data.userInfo.nickName.length > 10 ? this.data.userInfo.nickName.substr(0, 10) : this.data.userInfo.nickName
+    },
+    onHide: function() {
+        common.showLoading(false)
+        // clearTimeout(this.data.timer);
+    },
+    //事件处理函数
+    testTest: function() {
+        common.showLoading(true)
+        if (!this.data.props.status) {
+            this.setData({
+                'props.val': this.judgeLength(),
+                'props.avatar': this.data.userInfo.avatarUrl
+            })
+            wx.setStorageSync('props', this.data.props)
+        }
+        wx.navigateTo({
+            url: '../reault/reault'
+        })
+    },
+    getName: function(e) {
+        if (e.detail.value.length >= 10) {
+            wx.showModal({
+                title: '提示',
+                content: '名字最大长度不能超过10个字符',
+                showCancel: false,
+                success: function(res) {
+                    if (res.confirm) {
+                        e.detail.value = e.detail.value.substr(0, 10)
+                    }
+                }
+            })
+        } else {
+            this.setData({
+                'props.status': 1
+            })
+            if (e.detail.value) {
+                this.setData({
+                    'props.val': e.detail.value,
+                    'props.avatar': this.data.userInfo.avatarUrl
+                })
+            } else {
+                this.setData({
+                    'props.val': this.judgeLength(),
+                    'props.avatar': this.data.userInfo.avatarUrl
+                })
+            }
+            wx.setStorageSync('props', this.data.props)
+        }
+    },
+    onLoad: function() {
+    	app.getUserInfo(function(userInfo) {
+            //更新数据
+            this.setData({
+                userInfo: userInfo
+            })
+        }.bind(this))
+        
+    	this.creatAni(0)
+    },
+    onShow:function() {
+       
+    },
+    creatAni: function(n) {
+        n = n + 1;
+        var animation = wx.createAnimation({
+            duration: 2000,
+            delay: 0,
+            timingFunction: 'linear'
+        })
+        
+        
+        this.animation = animation
+        this.setData({
+            'animationData.Supreme': animation.export()
+        })
+        this.animation.rotateZ(360 * (n)).step()
+        this.setData({
+            'animationData.Supreme': this.animation.export(),
+            'timer': setTimeout(function() {
+                this.creatAni(n)
+            }.bind(this), 2000)
+        })
+    },
+    onShareAppMessage: function(res) {
+        if (res.from === 'button') {
+            console.log(res.target)
+        }
+        return {
+            title: '测一测你的2018吧',
+            path: 'pages/index/index',
+            success: function(res) {
+                // 转发成功
+            },
+            fail: function(res) {
+                // 转发失败
+            }
+        }
+    }
 })
