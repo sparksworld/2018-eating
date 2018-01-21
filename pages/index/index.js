@@ -7,115 +7,142 @@ Page({
         timer: null,
         userInfo: {},
         animationData: {},
-        props: {
-            status: 0
-        },
         pageData: {
             title: '2018，你靠什么吃饭？',
             imgBanner: {
-                path: '../assets/images/banner.png'
+                path: '../assets/images/banner.jpg'
             }
         },
         bottomPic: '../assets/images/timg.png'
     },
-    judgeLength() {
-        return this.data.userInfo.nickName.length > 10 ? this.data.userInfo.nickName.substr(0, 10) : this.data.userInfo.nickName
-    },
-    onHide: function() {
-        common.showLoading(false)
-        // clearTimeout(this.data.timer);
-    },
-    //事件处理函数
-    testTest: function() {
-        common.showLoading(true)
-        if (!this.data.props.status) {
-            this.setData({
-                'props.val': this.judgeLength(),
-                'props.avatar': this.data.userInfo.avatarUrl
-            })
-            wx.setStorageSync('props', this.data.props)
-        }
-        wx.navigateTo({
-            url: '../reault/reault'
-        })
-    },
-    getName: function(e) {
-        if (e.detail.value.length >= 10) {
-            wx.showModal({
-                title: '提示',
-                content: '名字最大长度不能超过10个字符',
-                showCancel: false,
-                success: function(res) {
-                    if (res.confirm) {
-                        e.detail.value = e.detail.value.substr(0, 10)
-                    }
-                }
-            })
-        } else {
-            this.setData({
-                'props.status': 1
-            })
-            if (e.detail.value) {
-                this.setData({
-                    'props.val': e.detail.value,
-                    'props.avatar': this.data.userInfo.avatarUrl
-                })
-            } else {
-                this.setData({
-                    'props.val': this.judgeLength(),
-                    'props.avatar': this.data.userInfo.avatarUrl
-                })
-            }
-            wx.setStorageSync('props', this.data.props)
-        }
-    },
-    onLoad: function() {
-    	app.getUserInfo(function(userInfo) {
+    onLoad() {
+        var that = this
+        app.getUserInfo(function(userInfo) {
             //更新数据
-            this.setData({
+            console.log(userInfo)
+            that.setData({
                 userInfo: userInfo
             })
-        }.bind(this))
-        
-    	this.creatAni(0)
-    },
-    onShow:function() {
-       
-    },
-    creatAni: function(n) {
-        n = n + 1;
-        var animation = wx.createAnimation({
-            duration: 2000,
-            delay: 0,
-            timingFunction: 'linear'
-        })
-        
-        
-        this.animation = animation
-        this.setData({
-            'animationData.Supreme': animation.export()
-        })
-        this.animation.rotateZ(360 * (n)).step()
-        this.setData({
-            'animationData.Supreme': this.animation.export(),
-            'timer': setTimeout(function() {
-                this.creatAni(n)
-            }.bind(this), 2000)
         })
     },
-    onShareAppMessage: function(res) {
-        if (res.from === 'button') {
-            console.log(res.target)
-        }
-        return {
-            title: '测一测你的2018吧',
-            path: 'pages/index/index',
-            success: function(res) {
-                // 转发成功
-            },
-            fail: function(res) {
-                // 转发失败
-            }
-        }
-    }
+    testTest(e) {
+        wx.navigateTo({
+            url: `../reault/reault?name=${e.detail.value.username}&header=${this.data.userInfo.avatarUrl}`
+        })
+    },
+    showAnimated: function () {
+        var t = this;
+        0 === this.data.currentIndex ? (setTimeout(function () {
+            t.setData({
+                one_one: "animated fadeIn",
+                one_two: "animated bounceIn"
+            })
+        }, 1e3), 
+        setTimeout(function () {
+            t.setData({
+                one_three: "animated bounceIn"
+            })
+        }, 1500), 
+        setTimeout(function () {
+            t.setData({
+                one_four: "animated bounceIn"
+            })
+        }, 1800), 
+        setTimeout(function () {
+            t.setData({
+                one_five: "animated lightSpeedIn"
+            })
+        }, 1900)) : 1 === this.data.currentIndex && (setTimeout(function () {
+            t.setData({
+                two_one: "animated fadeInDown",
+                two_two: "animated fadeInUp"
+            })
+        }, 1e3), 
+        setTimeout(function () {
+            t.setData({
+                two_three: "animated zoomIn",
+                two_four: "animated zoomIn"
+            })
+        }, 1200), 
+        setTimeout(function () {
+            t.setData({
+                two_three: "two-music-one",
+                two_four: "two-music-two"
+            })
+        }, 2200))
+    },
+    // judgeLength() {
+    //     return this.data.userInfo.nickName.length >= 12 ? this.data.userInfo.nickName.substr(0, 12) : this.data.userInfo.nickName
+    // },
+    // onHide: function() {
+    //     common.showLoading(false)
+    //     // clearTimeout(this.data.timer);
+    // },
+    // //事件处理函数
+    // testTest: function() {
+    //     common.showLoading(true)
+    //     if (!this.data.props.status) {
+    //         this.setData({
+    //             'props.val': this.judgeLength(),
+    //             'props.avatar': this.data.userInfo.avatarUrl
+    //         })
+    //         wx.setStorageSync('props', this.data.props)
+    //     }
+    //     wx.navigateTo({
+    //         url: '../reault/reault'
+    //     })
+    // },
+    // getName: function(e) {
+    //     if (e.detail.value.length >= 10) {
+    //         wx.showModal({
+    //             title: '提示',
+    //             content: '名字最大长度不能超过12个字符',
+    //             showCancel: false,
+    //             success: function(res) {
+    //                 if (res.confirm) {
+    //                     e.detail.value = e.detail.value.substr(0, 12)
+    //                 }
+    //             }
+    //         })
+    //     } else {
+    //         this.setData({
+    //             'props.status': 1
+    //         })
+    //         if (e.detail.value) {
+    //             this.setData({
+    //                 'props.val': e.detail.value,
+    //                 'props.avatar': this.data.userInfo.avatarUrl
+    //             })
+    //         } else {
+    //             this.setData({
+    //                 'props.val': this.judgeLength(),
+    //                 'props.avatar': this.data.userInfo.avatarUrl
+    //             })
+    //         }
+    //         wx.setStorageSync('props', this.data.props)
+    //     }
+    // },
+    // onLoad: function() {
+    // 	app.getUserInfo(function(userInfo) {
+    //         //更新数据
+    //         this.setData({
+    //             userInfo: userInfo
+    //         })
+    //     }.bind(this))        
+    // },
+    // onShareAppMessage: function(res) {
+    //     if (res.from === 'button') {
+    //         console.log(res.target)
+    //     }
+    //     return {
+    //         title: '测一测你的2018吧',
+    //         path: 'pages/index/index',
+    //         success: function(res) {
+    //             // 转发成功
+    //         },
+    //         fail: function(res) {
+    //             // 转发失败
+    //         }
+    //     }
+    // }
 })

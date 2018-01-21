@@ -8,5 +8,6 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "TestYourSelf",
     "navigationBarTextStyle":"black"
-  }
+  },
+  "debug": "true"
 }

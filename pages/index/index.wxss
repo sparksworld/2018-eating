@@ -7,10 +7,44 @@
     width: 100%;
 }
 
-.container .banner image {
-    width: 750rpx;
+.container .banner {
+	width: 750rpx;
+	height: 450rpx;
 }
-
+.container .banner .outsider,.container .banner .outside,.container .banner .center,.container .banner .inner{
+	border-radius: 50%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	filter: blur(2px);
+	
+	/* z-index: 1; */
+	/* border: 1px solid; */
+}
+.container .banner .inner{
+	width: 180rpx;
+	height: 180rpx;
+	background: rgba(121,123,174,.8);
+	filter: blur(1px);	
+}
+.container .banner .center{
+	width: 240rpx;
+	height: 240rpx;
+	background: rgba(121,123,174,.6);
+}
+.container .banner .outside{
+	width: 340rpx;
+	height: 340rpx;
+	background: rgba(121,123,174,.4);
+}
+.container .banner .outsider{
+	width: 540rpx;
+	height: 540rpx;
+	background: rgba(121,123,174,.1);
+	filter: blur(1px);	
+	/* background: radial-gradient(rgba(121,123,174,.1),rgba(121,123,174,0)); */
+}
 .testPro {
     width: 100%;
     text-align: center;
@@ -21,30 +55,32 @@
     line-height: 110rpx;	
 }
 
-.textEnt {
-	height: 100%;
+.enterName {
+  height: 80rpx;
 	width: 80%;
 	margin: 0 auto;
 	/* position: relative; */
-	border: 1px solid #ececec;
+  color: rgba(121,123,174,1);
+  border-radius: 20rpx;
+	border: 1px solid rgba(121,123,174,1);
+  padding: 0 6rpx;
 }
 
-.enterName {
+/* .enterName {
 	height: 80rpx;
-    width: 100%;
+  width: 100%;
 	color: #666;
 	padding: 0 6rpx;
 	box-sizing: border-box;
-}
-.submit_btn button{
-	width: 80%;
+} */
+.testTest{
+	width: 83%;
 	margin-top: 20rpx;
-	background-color: rgb(67, 148, 36);
-	color: #fff;
-	
+	background-color:transparent;
+	color: rgba(121,123,174,.9);
 }
-.submit_btn .button-hover {
-	background-color: rgb(36, 143, 111);
+.button-hover {
+	background-color: rgba(121,123,174,.1);
 }
 .container .banner{
 	position: relative;
@@ -52,9 +88,10 @@
 .container .banner .userheader{
 	position: absolute;
 	left: 50%;
-	top: 47%;
+	top: 50%;
 	transform: translateX(-50%) translateY(-50%);
 	border-radius: 50%;
+	/* z-index: 10; */
 }
 .container .bottomPic{
 	margin:0 auto;
@@ -66,7 +103,7 @@
 	left: 0;
 	padding: 0;
 	border: none;
-	background-color: #fff;
+	background-color: transparent;
 }
 .container .bottomPic::after{
 	display:none;
@@ -74,4 +111,16 @@
 .container .bottomPic image{
 	width: 100%;
 	height: 100%;
+}
+.ani {
+  animation: rote 5s linear infinite;
+  transform: rotateZ(0deg);
+}
+@keyframes rote {
+  from{
+    transform: rotateZ(0deg);
+  }
+  to{
+    transform: rotateZ(360deg);
+  }
 }

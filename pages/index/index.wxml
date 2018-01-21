@@ -1,20 +1,24 @@
 <!--index.wxml-->
 <view class="container">
 	<view class="banner">
-		<image style="background-color: #eeeeee;" src="{{pageData.imgBanner.path}}"></image>
-		<image class="userheader" style="width: 180rpx; height: 180rpx;" src="{{userInfo.avatarUrl}}"></image>
+		<!-- <image style="background-color: #eeeeee;" src="{{pageData.imgBanner.path}}"></image> -->
+		<view class="inner"></view>
+		<view class="center"></view>
+		<view class="outside"></view>
+		<view class="outsider"></view>
+		<image class="userheader" style="width: 130rpx; height: 130rpx;" src="{{userInfo.avatarUrl}}"></image>		
 	</view>
 	<view class="testPro">
 		<text class="pageTitle" space="emsp">{{pageData.title}}</text>
 	</view>
 
-	<view class="textEnt">
-		<input  class="enterName" maxlength="10" bindinput="getName" value="{{userInfo.nickName}}"/>
-	</view>
-	<view class="submit_btn">
-		<button bindtap="testTest">测一测</button>
-	</view>
-	<button class="bottomPic"  longpress="longQr" open-type="share">
-		<image animation="{{animationData.Supreme}}"  src="{{bottomPic}}"></image>
+	<form bindsubmit="testTest">
+		<input class="enterName" maxlength="" name='username' value="{{userInfo.nickName}}" />
+		<button class="testTest myfont" form-type="submit">点击测一测</button>
+	</form>
+
+	<button class="bottomPic" open-type="share">
+		<image class="ani" src="{{bottomPic}}"></image>
 	</button>
+	<indexAni></indexAni>
 </view>

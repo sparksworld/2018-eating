@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "TestYourself"
+	"navigationBarTitleText": "TestYourself",
+	"usingComponents": {
+		"indexAni": "../../pages/component/indexAni/indexAni"
+	}
 }

@@ -34,10 +34,11 @@ Page({
     },
 
     onLoad: function(options) {
+        console.log(options)
         let that = this;
         this.setData({
-			'name_header.userName': wx.getStorageSync('props').val,
-			'name_header.userHeader': wx.getStorageSync('props').avatar
+			'name_header.userName': options.name,
+			'name_header.userHeader': options.header
 		})
         wx.getSystemInfo({
             success: function(res) {
