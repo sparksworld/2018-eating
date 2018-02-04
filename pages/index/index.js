@@ -17,11 +17,7 @@ Page({
     },
     onLoad() {
         var that = this
-<<<<<<< HEAD
-        app.getUserInfo(function(userInfo) {
-=======
         app.getUserInfo(function (userInfo) {
->>>>>>> master
             //更新数据
             console.log(userInfo)
             that.setData({
@@ -34,48 +30,6 @@ Page({
             url: `../reault/reault?name=${e.detail.value.username}&header=${this.data.userInfo.avatarUrl}`
         })
     },
-<<<<<<< HEAD
-    showAnimated: function () {
-        var t = this;
-        0 === this.data.currentIndex ? (setTimeout(function () {
-            t.setData({
-                one_one: "animated fadeIn",
-                one_two: "animated bounceIn"
-            })
-        }, 1e3), 
-        setTimeout(function () {
-            t.setData({
-                one_three: "animated bounceIn"
-            })
-        }, 1500), 
-        setTimeout(function () {
-            t.setData({
-                one_four: "animated bounceIn"
-            })
-        }, 1800), 
-        setTimeout(function () {
-            t.setData({
-                one_five: "animated lightSpeedIn"
-            })
-        }, 1900)) : 1 === this.data.currentIndex && (setTimeout(function () {
-            t.setData({
-                two_one: "animated fadeInDown",
-                two_two: "animated fadeInUp"
-            })
-        }, 1e3), 
-        setTimeout(function () {
-            t.setData({
-                two_three: "animated zoomIn",
-                two_four: "animated zoomIn"
-            })
-        }, 1200), 
-        setTimeout(function () {
-            t.setData({
-                two_three: "two-music-one",
-                two_four: "two-music-two"
-            })
-        }, 2200))
-=======
     lengthInfo: function (e) {
         var _this = this
         if (e.detail.value.length >= 12) {
@@ -92,7 +46,6 @@ Page({
                 }
             })
         }
->>>>>>> master
     },
     // judgeLength() {
     //     return this.data.userInfo.nickName.length >= 12 ? this.data.userInfo.nickName.substr(0, 12) : this.data.userInfo.nickName

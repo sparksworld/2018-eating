@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-<view>
-    <canvas style="width:100%;height:{{contentHeight}}px" canvas-id="myCanvas"></canvas>
-
-     <view class="edit-footer">
-        <button class="button-done" type="primary" bindtap="savePic">保存图片</button>
-    </view>
-    <indexAni></indexAni>
-=======
 <view class="reault">
     <view id="loading" wx:if="{{isShowLoading}}">
         <view id="loading-center">
@@ -26,5 +17,4 @@
         <button class="btn-save"  bindtap="savePic">保存图片</button>
         <button class="btn-share" open-type="share">分享一下</button>
     </view>
->>>>>>> master
 </view>
