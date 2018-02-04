@@ -9,8 +9,13 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "1.9.1",
+<<<<<<< HEAD
 	"appid": "wxf34c322c16edf2ba",
 	"projectname": "TestYourself",
+=======
+	"appid": "wxf505608b6fefcdb0",
+	"projectname": "TestYour",
+>>>>>>> master
 	"isGameTourist": false,
 	"condition": {
 		"search": {

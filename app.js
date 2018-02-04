@@ -1,4 +1,8 @@
 //app.js
+<<<<<<< HEAD
+=======
+var aldstat = require('./utils/ald-stat.js');
+>>>>>>> master
 App({
 	globalData: {
 		userInfo: null
@@ -25,7 +29,11 @@ App({
 								success: function () {
 									wx.getUserInfo({
 										success: res => {
+<<<<<<< HEAD
 											that.globalData.userInfo = res.userInfo													
+=======
+											that.globalData.userInfo = res.userInfo
+>>>>>>> master
 											typeof cb == "function" && cb(that.globalData.userInfo)
 										}
 									})

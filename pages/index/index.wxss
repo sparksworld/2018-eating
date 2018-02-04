@@ -14,15 +14,26 @@
 .container .banner .outsider,.container .banner .outside,.container .banner .center,.container .banner .inner{
 	border-radius: 50%;
 	position: absolute;
+<<<<<<< HEAD
 	left: 50%;
 	top: 50%;
 	transform: translateX(-50%) translateY(-50%);
 	filter: blur(2px);
+=======
+	width: 130rpx;
+	height: 130rpx;
+	left: 50%;
+	top: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	/* filter: blur(2px); */
+	opacity: 0;
+>>>>>>> master
 	
 	/* z-index: 1; */
 	/* border: 1px solid; */
 }
 .container .banner .inner{
+<<<<<<< HEAD
 	width: 180rpx;
 	height: 180rpx;
 	background: rgba(121,123,174,.8);
@@ -48,10 +59,97 @@
 .testPro {
     width: 100%;
     text-align: center;
+=======
+
+	background: rgba(121,123,174,.8);
+	/* filter: blur(1px); */
+	animation: inner 2s 1s ease-in infinite;
+}
+
+.container .banner .center{
+
+	animation: cente 2s 1.1s ease-in infinite;
+	background: rgba(121,123,174,.6);
+	
+}
+.container .banner .outside{
+
+	animation: outsid 2s 1.2s ease-in infinite;
+	background: rgba(121,123,174,.4);
+	
+}
+.container .banner .outsider{
+
+	background: rgba(121,123,174,.2);
+	animation: outsider 2s 1.3s ease-in infinite;
+	/* filter: blur(1px);	 */
+	
+	/* background: radial-gradient(rgba(121,123,174,.1),rgba(121,123,174,0)); */
+}
+
+@keyframes inner {
+	0%{
+		opacity: 0;
+	}
+	50%{
+		width: 180rpx;
+		height: 180rpx;
+		opacity: 1;
+	}
+	100%{
+		opacity: 0;
+	}
+}
+@keyframes cente {
+	0%{
+		opacity: 0;
+	}
+	50%{
+		width: 240rpx;
+		height: 240rpx;
+		opacity: 1;
+	}
+	100%{
+		opacity: 0;
+	}
+}
+@keyframes outsid {
+	0%{
+		opacity: 0;
+	}
+	50%{
+		width: 340rpx;
+		height: 340rpx;
+		opacity: 1;
+	}
+	100%{
+		opacity: 0;
+	}
+}
+@keyframes outsider {
+	0% {
+		opacity: 0;
+	}
+	50%{
+		width: 540rpx;
+		height: 540rpx;
+		opacity: 1;
+	}
+	100%{
+		opacity: 0;
+	}
+}
+.testPro {
+    width: 100%;
+	text-align: center;
+	font-weight: bolder;
+	color: #3c4b79;
+>>>>>>> master
 }
 
 .testPro .pageTitle {
 	font-size: 38rpx;
+<<<<<<< HEAD
     line-height: 110rpx;	
 }
 
@@ -60,12 +158,23 @@
 	width: 80%;
 	margin: 0 auto;
 	/* position: relative; */
+=======
+  	line-height: 110rpx;	
+}
+
+.enterName {
+  height: 60rpx;
+	width: 80%;
+	margin: 0 auto;
+	font-size: 30rpx;
+>>>>>>> master
   color: rgba(121,123,174,1);
   border-radius: 20rpx;
 	border: 1px solid rgba(121,123,174,1);
   padding: 0 6rpx;
 }
 
+<<<<<<< HEAD
 /* .enterName {
 	height: 80rpx;
   width: 100%;
@@ -73,6 +182,9 @@
 	padding: 0 6rpx;
 	box-sizing: border-box;
 } */
+=======
+
+>>>>>>> master
 .testTest{
 	width: 83%;
 	margin-top: 20rpx;
@@ -87,6 +199,11 @@
 }
 .container .banner .userheader{
 	position: absolute;
+<<<<<<< HEAD
+=======
+	width: 130rpx;
+	height: 130rpx;
+>>>>>>> master
 	left: 50%;
 	top: 50%;
 	transform: translateX(-50%) translateY(-50%);
@@ -95,8 +212,13 @@
 }
 .container .bottomPic{
 	margin:0 auto;
+<<<<<<< HEAD
 	width:120rpx; 
 	height:120rpx;
+=======
+	width:110rpx; 
+	height:110rpx;
+>>>>>>> master
 	position: fixed;
 	bottom: 80rpx;
 	right: 0;

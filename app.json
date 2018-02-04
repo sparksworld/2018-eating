@@ -6,7 +6,11 @@
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
+<<<<<<< HEAD
     "navigationBarTitleText": "TestYourSelf",
+=======
+    "navigationBarTitleText": "2018，你靠什么吃饭？",
+>>>>>>> master
     "navigationBarTextStyle":"black"
   },
   "debug": "true"

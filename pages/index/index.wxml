@@ -6,13 +6,18 @@
 		<view class="center"></view>
 		<view class="outside"></view>
 		<view class="outsider"></view>
+<<<<<<< HEAD
 		<image class="userheader" style="width: 130rpx; height: 130rpx;" src="{{userInfo.avatarUrl}}"></image>		
+=======
+		<image class="userheader" src="{{userInfo.avatarUrl}}"></image>		
+>>>>>>> master
 	</view>
 	<view class="testPro">
 		<text class="pageTitle" space="emsp">{{pageData.title}}</text>
 	</view>
 
 	<form bindsubmit="testTest">
+<<<<<<< HEAD
 		<input class="enterName" maxlength="" name='username' value="{{userInfo.nickName}}" />
 		<button class="testTest myfont" form-type="submit">点击测一测</button>
 	</form>
@@ -20,5 +25,14 @@
 	<button class="bottomPic" open-type="share">
 		<image class="ani" src="{{bottomPic}}"></image>
 	</button>
+=======
+		<input class="enterName" maxlength="12" bindinput="lengthInfo"  name='username' value="{{userInfo.nickName}}" />
+		<button class="testTest myfont" form-type="submit">点击测一测</button>
+	</form>
+
+	<!-- <button class="bottomPic" open-type="share">
+		<image class="ani" src="{{bottomPic}}"></image>
+	</button> -->
+>>>>>>> master
 	<indexAni></indexAni>
 </view>

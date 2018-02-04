@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"navigationBarTitleText": "TestYourself",
+=======
+	"navigationBarTitleText": "2018，你靠什么吃饭？",
+>>>>>>> master
 	"usingComponents": {
 		"indexAni": "../../pages/component/indexAni/indexAni"
 	}

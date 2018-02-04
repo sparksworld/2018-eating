@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <view>
     <canvas style="width:100%;height:{{contentHeight}}px" canvas-id="myCanvas"></canvas>
 
@@ -5,4 +6,25 @@
         <button class="button-done" type="primary" bindtap="savePic">保存图片</button>
     </view>
     <indexAni></indexAni>
+=======
+<view class="reault">
+    <view id="loading" wx:if="{{isShowLoading}}">
+        <view id="loading-center">
+            <view id="loading-center-absolute">
+                <view class="object" id="object_one"></view>
+                <view class="object" id="object_two"></view>
+                <view class="object" id="object_three"></view>
+                <view class="object" id="object_four"></view>
+            </view>
+        </view>
+    </view>
+    <view longtap="savePic">
+        <canvas style="width:100%;height:{{contentHeight}}px" canvas-id="myCanvas"></canvas>    
+    </view>
+    <image class="images_02" hidden="{{true}}" mode="widthFix" bindload="imageLoad" src="{{drawPicPath}}" />
+     <view class="edit-footer">
+        <button class="btn-save"  bindtap="savePic">保存图片</button>
+        <button class="btn-share" open-type="share">分享一下</button>
+    </view>
+>>>>>>> master
 </view>

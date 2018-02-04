@@ -17,7 +17,11 @@ Page({
     },
     onLoad() {
         var that = this
+<<<<<<< HEAD
         app.getUserInfo(function(userInfo) {
+=======
+        app.getUserInfo(function (userInfo) {
+>>>>>>> master
             //更新数据
             console.log(userInfo)
             that.setData({
@@ -30,6 +34,7 @@ Page({
             url: `../reault/reault?name=${e.detail.value.username}&header=${this.data.userInfo.avatarUrl}`
         })
     },
+<<<<<<< HEAD
     showAnimated: function () {
         var t = this;
         0 === this.data.currentIndex ? (setTimeout(function () {
@@ -70,6 +75,24 @@ Page({
                 two_four: "two-music-two"
             })
         }, 2200))
+=======
+    lengthInfo: function (e) {
+        var _this = this
+        if (e.detail.value.length >= 12) {
+            wx.showModal({
+                title: '提示',
+                content: '名字最大长度不能超过20个字符',
+                showCancel: false,
+                success: function (res) {
+                    if (res.confirm) {
+                        _this.setData({
+                            "userInfo.nickName": e.detail.value.substr(0, 12)
+                        })
+                    }
+                }
+            })
+        }
+>>>>>>> master
     },
     // judgeLength() {
     //     return this.data.userInfo.nickName.length >= 12 ? this.data.userInfo.nickName.substr(0, 12) : this.data.userInfo.nickName
@@ -130,6 +153,7 @@ Page({
     //         })
     //     }.bind(this))        
     // },
+<<<<<<< HEAD
     // onShareAppMessage: function(res) {
     //     if (res.from === 'button') {
     //         console.log(res.target)
@@ -145,4 +169,21 @@ Page({
     //         }
     //     }
     // }
+=======
+    onShareAppMessage: function (res) {
+        if (res.from === 'button') {
+            console.log(res.target)
+        }
+        return {
+            title: '测一测你的2018吧',
+            path: 'pages/index/index',
+            success: function (res) {
+                // 转发成功
+            },
+            fail: function (res) {
+                // 转发失败
+            }
+        }
+    }
+>>>>>>> master
 })
