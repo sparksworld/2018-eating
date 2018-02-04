@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "测试结果",
+  "usingComponents": {
+		"indexAni": "../../pages/component/indexAni/indexAni"
+	}
+}

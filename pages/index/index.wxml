@@ -1,0 +1,24 @@
+<!--index.wxml-->
+<view class="container">
+	<view class="banner">
+		<!-- <image style="background-color: #eeeeee;" src="{{pageData.imgBanner.path}}"></image> -->
+		<view class="inner"></view>
+		<view class="center"></view>
+		<view class="outside"></view>
+		<view class="outsider"></view>
+		<image class="userheader" src="{{userInfo.avatarUrl}}"></image>		
+	</view>
+	<view class="testPro">
+		<text class="pageTitle" space="emsp">{{pageData.title}}</text>
+	</view>
+
+	<form bindsubmit="testTest">
+		<input class="enterName" maxlength="12" bindinput="lengthInfo"  name='username' value="{{userInfo.nickName}}" />
+		<button class="testTest myfont" form-type="submit">点击测一测</button>
+	</form>
+
+	<!-- <button class="bottomPic" open-type="share">
+		<image class="ani" src="{{bottomPic}}"></image>
+	</button> -->
+	<indexAni></indexAni>
+</view>

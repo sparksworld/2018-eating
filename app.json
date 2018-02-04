@@ -1,0 +1,13 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/reault/reault"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "2018，你靠什么吃饭？",
+    "navigationBarTextStyle":"black"
+  },
+  "debug": "true"
+}

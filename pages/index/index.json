@@ -1,0 +1,6 @@
+{
+	"navigationBarTitleText": "2018，你靠什么吃饭？",
+	"usingComponents": {
+		"indexAni": "../../pages/component/indexAni/indexAni"
+	}
+}
